@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Test Project</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+<style type="text/css">
+    .btn
+    {
+        margin-left: 37%;
+    }
+</style>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                   <!--  <div class="col-lg-5 d-none d-lg-block" style="background-image: url(/static/img/register.jpg);background-repeat: no-repeat;background-size: 500px 448px;"></div> -->
+                    <div class="col-md-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Update Trader Details</h1>
+                            </div>
+                            <form  class="user" action="/editcustdata/" method="POST">{% csrf_token %}
+                                <div class="form-group row">
+                                    {% for i in data %}
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label>Trader Name</label>
+                                        <input type="text" id="trdname" name="trdname" class="form-control" required value="{{i.TrdName}}">
+                                        <input type="text" id="cid" name="cid" class="form-control" required value="{{i.id}}" hidden>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Gstid</label>
+                                         <input type="text" id="gstid" name="gstid" class="form-control" required value="{{i.Gstid}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                   <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label>Address 1</label>
+                                       <textarea id="addr1" name="addr1" class="form-control" required="">{{i.Addr1}}</textarea>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Address 2</label>
+                                         <textarea id="addr2" name="addr2" class="form-control" required="">{{i.Addr2}}</textarea>
+                                    </div>
+                                </div>
+                             <div class="form-group row">
+                                   <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label>Place</label>
+                                       <input type="text" id="place" name="place" class="form-control" required value="{{i.Place}}">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Pincode</label>
+                                         <input type="text" id="pin" name="pin" class="form-control" required value="{{i.Pincode}}">
+                                    </div>
+                                </div>
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Product Details</h5>
+                            </div><br>
+                              <div class="form-group row">
+                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                        <label>Product Name</label>
+                                        <!-- <input type="text" id="pname" name="pname" class="form-control" required=""> -->
+                                        <select class="form-control" id="pname" name="pname" required="">
+                                          <option value="" selected="">Select</option>
+                                           {% for j in item %}<option value="{{j.id}}">{{j.ProductName}}</option>{% endfor %}
+                                       </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>Qty</label>
+                                         <input type="text" id="qty" name="qty" class="form-control" required="">
+                                    </div>
+                                <!-- </div>
+                                <div class="form-group row"> -->
+                                   <div class="col-sm-2">
+                                    <label>Unit</label>
+                                       <select class="form-control" id="unit" name="unit" required="">
+                                          <option value="" selected="">Select</option>
+                                           <option selected="" value="">Select</option>
+                                           <option value="BOX">BOX</option>
+                                           <option value="CANS">CANS</option>
+                                         <option value="QUINTAL">QUINTAL</option> 
+                                       </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label>Price</label>
+                                         <input type="text" id="price" name="price" class="form-control" required="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label>Description</label>
+                                         <input type="text" id="pdesc" name="pdesc" class="form-control" required="">
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <a class="btn-primary btn" onclick="newrow()" id="pro" name="pro" style="color:black;/* border:none; */background: transparent;margin-top: 34%;margin-left: 3%;font-size: 11pt;position: absolute;">ADD</a>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                   <div class="table-responsive">
+                                      <table  class="table" id="spt" width="100%">
+                                        <thead>
+                                          <tr>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th>Price</th>
+                                            <th>Product Description</th>
+                                          </tr>
+                                        </thead>
+                                             <tbody>
+                                             {% for j in itm %}
+                                             <tr id="idd{{j.id}}"> 
+                                              <td>{{j.pid.ProductName}}</td>
+                                              <td>{{j.Quantity}}</td>
+                                              <td>{{j.pid.QtyUnit}}</td>
+                                              <td>{{j.taxableAmount}}</td>
+                                              <td>{{j.ProducctDesc}}</td>
+                                              <td><input id='remove_parts' type='button' class='btn btn-primary' onclick='deletedat({{j.id}})' value='Delete'/></td>
+                                             </tr>
+                                             {% endfor %}
+                                             </tbody>
+                                         </table>
+                                       <!-- </div>
+                                     </div>
+                                     <div class="form-group row">
+                                   <div class="table-responsive">
+                                         <table id="spt"  class="table" width="100%">
+                                          <tbody>
+                                          </tbody>
+                                         </table> -->
+                                    </div>
+                                </div>
+                            <div class="form-group row">
+                                   <div class="col-sm-12">
+                                         <input type="checkbox" id="done" name="done" value="yes">&emsp;<label style="color: black">Check the box once you have completed editing all details and products</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                                <button class="btn btn-primary btn-user btn-block col-sm-3 mb-3 mb-sm-0"  id="addtrader" style="display: none">
+                                    Update</button>
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+<script type="text/javascript">
+     $("#done").click(function(e){
+    e.preventDefault()
+    var val=document.getElementById('done').value;
+    if (val=='yes')
+    {
+        document.getElementById('addtrader').style.display='block'
+        document.getElementById('done').value="no"
+    }
+    else
+    {
+        document.getElementById('addtrader').style.display='none'
+        document.getElementById('done').value="yes"
+    }
+});
+
+     function newrow()
+{
+var pname=document.getElementById("pname").value;
+    var ppname=$( "#pname option:selected" ).text();
+    var unit=document.getElementById("unit").value;
+    var uunit=$( "#unit option:selected" ).text();
+    var qty=document.getElementById("qty").value;
+    var price=document.getElementById("price").value;
+    var pdesc=document.getElementById("pdesc").value;
+
+    $('#spt tbody').append(
+            "<tr><td>"+ppname+"</td><td>"+qty+"</td><td>"+price+"</td><td>"+uunit+"</td><td>"+pdesc+"</td><td><input id='remove_parts' type='button' class='btn btn-primary' onclick='deleteRow(this)' value='Delete'/></td><td><input name='pname' hidden value='"+pname+"'></td><td><input name='qty' hidden value='"+qty+"'><input name='price' hidden value='"+price+"'></td><td><input name='pdesc' hidden value='"+pdesc+"'></td><td><input name='unit' hidden value='"+unit+"'></td></tr>") 
+            
+    }
+    function deleteRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+  }
+  function deletedat(id) {
+    // alert(id)
+    $.ajax({
+          type:'GET',
+          url:'/deldat/',
+          data:{
+            did:id
+          },
+          // contentType:false,
+          // processData:false,
+          datatype:'json',
+          success: function(data) 
+              {
+              $('#idd'+id).remove()
+          },
+        })
+  }
+</script>
+</body>
+
+</html>
